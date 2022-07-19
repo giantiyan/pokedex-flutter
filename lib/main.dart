@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pokedex/detailsScreen.dart';
 
 Future<http.Response> fetchPokemon() {
   return http.get(Uri.parse('https://pokeapi.co/api/v2/pokemon'));
@@ -43,7 +44,7 @@ class _MyAppState extends State<MyApp> {
 
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Pokédex'),
     );
   }
 }
@@ -86,22 +87,28 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+          centerTitle: true,
       ),
       body: FutureBuilder<List<Pokemon>>(
         future: futurePokemon,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 190,
-                    childAspectRatio: 1,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10),
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  return Container(
+            List<Pokemon> pokemonList = snapshot.data!;
+
+            return GridView.builder(
+              padding: EdgeInsets.all(10.0),
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 190,
+                  childAspectRatio: 1,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10),
+              itemCount: pokemonList.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => detailsScreen(pokemon: pokemonList[index],)));
+                  },
+                  child: Container(
                       padding: EdgeInsets.all(18),
                       height: 100,
                       width: 100,
@@ -122,16 +129,17 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       child: Column(
                         children: [
-                          Text(snapshot.data![index].name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                          Text(pokemonList[index].name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
                           SizedBox(height: 15.0),
                           Container(
                               height: 100,
-                              child: Image.network('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/' + snapshot.data![index].url.toString().split('/')[6] + '.png')),
+                              child: Image.network('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/' + pokemonList[index].url.toString().split('/')[6] + '.png')
+                          ),
                         ],
                       )
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             );
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
@@ -139,6 +147,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
           return const CircularProgressIndicator();
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your onPressed code here!
+        },
+        child: const Icon(Icons.filter_list),
       ),
     );
   }
