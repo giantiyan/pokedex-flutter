@@ -7,7 +7,7 @@ name: Lint Checks
 
 on:
   pull_request:
-    branches: [ review ]
+    branches: '**'
 
 concurrency:
   group: review-${{ github.base_ref }}-${{ github.head_ref }}
