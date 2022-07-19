@@ -1,40 +1,19 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pokedex/details_screen.dart';
 
-Future<http.Response> fetchPokemon() {
-  return http.get(Uri.parse('https://pokeapi.co/api/v2/pokemon'));
-}
+import 'models/Pokemon.dart';
+
+final _formKey = GlobalKey<FormState>();
 
 void main() {
   runApp(const MyApp());
 }
 
-class Pokemon {
-  final String name;
-  final String url;
-
-  const Pokemon({
-    required this.name,
-    required this.url,
-  });
-
-  factory Pokemon.fromJson(Map<String, dynamic> json) {
-    return Pokemon(
-      name: json['name'],
-      url: json['url'],
-    );
-  }
-}
-
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -43,14 +22,13 @@ class _MyAppState extends State<MyApp> {
 
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Pokédex'),
     );
   }
 }
 
-
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title,}) : super(key: key);
 
   final String title;
 
@@ -73,36 +51,80 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  late Future<List<Pokemon>> futurePokemon;
-
-  @override
-  void initState() {
-    super.initState();
-    futurePokemon = fetchPokemon();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        centerTitle: true,
+        bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(45),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+              child: Form(
+                  autovalidateMode: AutovalidateMode.onUserInteraction, key: _formKey,
+                  child: Row (
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            decoration: const InputDecoration(
+                              fillColor: Colors.white,
+                              prefixIcon: Icon(Icons.search),
+                              hintText: 'Search here',
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                  borderSide: BorderSide(
+                                    width: 0,
+                                    style: BorderStyle.none,
+                                  )
+                              ),
+                              filled: true,
+                              contentPadding: EdgeInsets.symmetric(vertical: 0.0),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        ElevatedButton(style: ElevatedButton.styleFrom(primary: Colors.grey),
+                          child: const Padding(
+                            padding: EdgeInsets.fromLTRB(0, 12, 0, 12),
+                            child: Text('Search', style: TextStyle(fontSize: 20, ),
+                            ),
+                          ),
+                          onPressed: () async{
+                          },
+                        ),
+                      ]
+                  )),
+            )
+        ),
+        backgroundColor: Colors.red,
       ),
       body: FutureBuilder<List<Pokemon>>(
-        future: futurePokemon,
+        future: fetchPokemon(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Padding(
+            List<Pokemon> pokemonList = snapshot.data!;
+
+            return GridView.builder(
               padding: const EdgeInsets.all(10.0),
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 190,
-                    childAspectRatio: 1,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10),
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                      padding: EdgeInsets.all(18),
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 190,
+                  childAspectRatio: 1,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10),
+              itemCount: pokemonList.length,
+              itemBuilder: (context, index) {
+
+                String id = pokemonList[index].url.toString().split('/')[6];
+
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsScreen(pokemon: pokemonList[index],)));
+                  },
+                  child: Container(
+                      padding: const EdgeInsets.all(18),
                       height: 100,
                       width: 100,
                       decoration: BoxDecoration(
@@ -122,23 +144,41 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       child: Column(
                         children: [
-                          Text(snapshot.data![index].name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
-                          SizedBox(height: 15.0),
-                          Container(
-                              height: 100,
-                              child: Image.network('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/' + snapshot.data![index].url.toString().split('/')[6] + '.png')),
+                          Text(pokemonList[index].name, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                          const SizedBox(height: 15.0),
+                          Row(
+                            children: [
+                              Column(
+                                children: const [
+                                  Text("type 1"),
+                                  SizedBox(height: 8,),
+                                  Text("type 2"),
+                                ],
+                              ),
+                              SizedBox(
+                                  height: 100,
+                                  child: Image.network('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png')
+                              ),
+                            ],
+                          ),
                         ],
                       )
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             );
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
-
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your onPressed code here!
+        },
+        backgroundColor: Colors.red,
+        child: const Icon(Icons.filter_list),
       ),
     );
   }
