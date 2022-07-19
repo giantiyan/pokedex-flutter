@@ -75,6 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   late Future<List<Pokemon>> futurePokemon;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -88,6 +89,49 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
           centerTitle: true,
+          bottom: PreferredSize(
+              preferredSize: Size.fromHeight(45),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                child: Form(
+                    autovalidateMode: AutovalidateMode.onUserInteraction, key: _formKey,
+                    child: Row (
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                fillColor: Colors.white,
+                                prefixIcon: Icon(Icons.search),
+                                hintText: 'Search here',
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                    borderSide: BorderSide(
+                                      width: 0,
+                                      style: BorderStyle.none,
+                                    )
+                                ),
+                                filled: true,
+                                contentPadding: EdgeInsets.symmetric(vertical: 0.0),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          ElevatedButton(style: ElevatedButton.styleFrom(primary: Colors.grey),
+                            child: const Padding(
+                              padding: EdgeInsets.fromLTRB(0, 12, 0, 12),
+                              child: Text('Search', style: TextStyle(fontSize: 20, ),
+                              ),
+                            ),
+                            onPressed: () async{
+                            },
+                          ),
+                        ]
+                    )),
+              )
+          ),
+        backgroundColor: Colors.red,
       ),
       body: FutureBuilder<List<Pokemon>>(
         future: futurePokemon,
@@ -131,9 +175,20 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: [
                           Text(pokemonList[index].name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
                           SizedBox(height: 15.0),
-                          Container(
-                              height: 100,
-                              child: Image.network('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/' + pokemonList[index].url.toString().split('/')[6] + '.png')
+                          Row(
+                            children: [
+                              Column(
+                                children: [
+                                  Text("type 1"),
+                                  SizedBox(height: 8,),
+                                  Text("type 2"),
+                                ],
+                              ),
+                              Container(
+                                  height: 100,
+                                  child: Image.network('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/' + pokemonList[index].url.toString().split('/')[6] + '.png')
+                              ),
+                            ],
                           ),
                         ],
                       )
@@ -153,6 +208,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // Add your onPressed code here!
         },
         child: const Icon(Icons.filter_list),
+        backgroundColor: Colors.red,
       ),
     );
   }

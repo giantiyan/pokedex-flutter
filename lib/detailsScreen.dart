@@ -25,6 +25,7 @@ class _detailsScreenState extends State<detailsScreen> {
       appBar: AppBar(
         title: Text(widget.pokemon.name),
         centerTitle: true,
+        backgroundColor: Colors.red,
       ),
       body: Center(
         child: Container(
