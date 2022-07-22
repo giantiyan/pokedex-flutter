@@ -4,7 +4,6 @@ import '../../api/models/pokemon_model.dart';
 import '../details_page/details_page.dart';
 import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 
-
 class HomePage extends StatelessWidget {
   const HomePage({
     this.pokemon,
@@ -12,18 +11,17 @@ class HomePage extends StatelessWidget {
 
   final List<PokemonModel>? pokemon;
 
-  @override
-  void initState(){
-    print("start");
-
-  }
-
+  // @override
+  // void initState(){
+  //   print("start");
+  //
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pokédex'),
+        title: const Text('Pokédex'),
         centerTitle: true,
         bottom: PreferredSize(
             preferredSize: const Size.fromHeight(45),
@@ -50,13 +48,11 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      width: 8,
-                    ),
+                    const SizedBox(width: 8),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(primary: Colors.grey),
                       child: const Padding(
-                        padding: EdgeInsets.fromLTRB(0, 12, 0, 12),
+                        padding: EdgeInsets.symmetric(vertical: 12.0),
                         child: Text(
                           'Search',
                           style: TextStyle(
@@ -114,20 +110,23 @@ class HomePage extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      toBeginningOfSentenceCase(pokemon?[index].name).toString(),
+                      toBeginningOfSentenceCase(pokemon?[index].name)
+                          .toString(),
                       style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 15.0),
                     Row(
                       children: [
                         Column(
                           children: const [
-                            Text("type 1"),
+                            Text('type 1'),
                             SizedBox(
                               height: 8,
                             ),
-                            Text("type 2"),
+                            Text('type 2'),
                           ],
                         ),
                         SizedBox(

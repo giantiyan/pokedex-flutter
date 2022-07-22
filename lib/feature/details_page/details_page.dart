@@ -65,16 +65,16 @@ class DetailsPage extends StatelessWidget {
                                 labelPadding: EdgeInsets.symmetric(horizontal: 10.0),
                                 tabs: <Widget>[
                                   Tab(
-                                    text: "About",
+                                    text: 'About',
                                   ),
                                   Tab(
-                                    text: "Base Stats",
+                                    text: 'Base Stats',
                                   ),
                                   Tab(
-                                    text: "Evolution",
+                                    text: 'Evolution',
                                   ),
                                   Tab(
-                                    text: "Moves",
+                                    text: 'Moves',
                                   ),
                                 ],
                               ),
