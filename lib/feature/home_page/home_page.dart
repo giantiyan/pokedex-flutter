@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../api/models/pokemon_model.dart';
-import '../details_page/details_page.dart';
-import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
+import 'package:pokedex/api/models/pokemon_model.dart';
+import 'package:pokedex/feature/details_page/details_page.dart';
+import 'package:pokedex/utilities/extensions.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({
@@ -10,12 +10,6 @@ class HomePage extends StatelessWidget {
   });
 
   final List<PokemonModel>? pokemon;
-
-  // @override
-  // void initState(){
-  //   print("start");
-  //
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -69,13 +63,14 @@ class HomePage extends StatelessWidget {
       body: GridView.builder(
         padding: const EdgeInsets.all(10.0),
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 190,
-            childAspectRatio: 1,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10),
+          maxCrossAxisExtent: 190,
+          childAspectRatio: 1,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+        ),
         itemCount: pokemon?.length,
         itemBuilder: (context, index) {
-          var id = pokemon?[index].url.toString().split('/')[6];
+          var id = pokemon?[index].id;
 
           return InkWell(
             onTap: () {
@@ -110,8 +105,7 @@ class HomePage extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      toBeginningOfSentenceCase(pokemon?[index].name)
-                          .toString(),
+                      pokemon?[index].name?.toString().capitalize ?? '',
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

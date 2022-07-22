@@ -1,8 +1,7 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
-
-import '../pokedex_app.dart';
-import '../state/app_state.dart';
+import 'package:pokedex/pokedex_app.dart';
+import 'package:pokedex/state/app_state.dart';
 
 void appStarter() {
   WidgetsFlutterBinding.ensureInitialized();

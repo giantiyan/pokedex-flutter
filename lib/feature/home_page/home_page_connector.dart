@@ -1,11 +1,10 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/feature/home_page/home_page.dart';
+import 'package:pokedex/state/actions/home_page_actions.dart';
+import 'package:pokedex/state/app_state.dart';
 
-import '../../state/actions/home_page_actions.dart';
-import '../../state/app_state.dart';
 import 'home_page_vm.dart';
-
 
 class HomePageConnector extends StatelessWidget {
   const HomePageConnector();

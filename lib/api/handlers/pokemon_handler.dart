@@ -1,8 +1,8 @@
 import 'dart:convert';
+import 'package:dartx/dartx.dart';
 import 'package:http/http.dart' as http;
-
-import '../../utilities/constants.dart';
-import '../models/pokemon_model.dart';
+import 'package:pokedex/api/models/pokemon_model.dart';
+import 'package:pokedex/utilities/constants.dart';
 
 class PokemonHandler {
   static Future<List<PokemonModel>?> getPokemon() async {
@@ -11,15 +11,24 @@ class PokemonHandler {
     try {
       response = await http.get(Uri.tryParse(pokemonURL) ?? Uri());
     } catch (e) {
-      // print(e);
+      print(e);
     }
 
     if (response.statusCode == 200) {
       final List data = jsonDecode(response.body)['results'];
-      return data.map((e) => PokemonModel.fromJson(e)).toList();
+      final pokemonData = data
+          .mapIndexed((index, pokemon) => PokemonModel(
+                name: pokemon['name'],
+                url: pokemon['url'],
+                id: index + 1,
+              ))
+          .toList();
+
+      return pokemonData;
     } else {
-      // print("Can't get hatdog. Status Code: ${response.statusCode}");
       return null;
     }
   }
+
+
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../api/models/pokemon_model.dart';
-import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
+import 'package:pokedex/api/models/pokemon_model.dart';
+import 'package:pokedex/utilities/extensions.dart';
+import 'package:pokedex/utilities/string_constants.dart';
 
 class DetailsPage extends StatelessWidget {
   const DetailsPage({
@@ -48,12 +49,14 @@ class DetailsPage extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Text(
-                            toBeginningOfSentenceCase(pokemon?.name).toString(),
+                            (pokemon?.name).toString().capitalize,
                             style: const TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                        Divider(),
+                        const Divider(),
                         DefaultTabController(
                           length: 4,
                           initialIndex: 0,
@@ -62,20 +65,13 @@ class DetailsPage extends StatelessWidget {
                             children: <Widget>[
                               const TabBar(
                                 labelColor: Colors.black,
-                                labelPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                                labelPadding:
+                                    EdgeInsets.symmetric(horizontal: 10.0),
                                 tabs: <Widget>[
-                                  Tab(
-                                    text: 'About',
-                                  ),
-                                  Tab(
-                                    text: 'Base Stats',
-                                  ),
-                                  Tab(
-                                    text: 'Evolution',
-                                  ),
-                                  Tab(
-                                    text: 'Moves',
-                                  ),
+                                  Tab(text: about),
+                                  Tab(text: baseStats),
+                                  Tab(text: evolution),
+                                  Tab(text: moves),
                                 ],
                               ),
                               Container(

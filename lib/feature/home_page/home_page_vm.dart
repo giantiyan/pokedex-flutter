@@ -1,7 +1,7 @@
 import 'package:async_redux/async_redux.dart';
+import 'package:pokedex/api/models/pokemon_model.dart';
+import 'package:pokedex/state/app_state.dart';
 
-import '../../api/models/pokemon_model.dart';
-import '../../state/app_state.dart';
 import 'home_page_connector.dart';
 
 class HomePageVmFactory extends VmFactory<AppState, HomePageConnector> {
@@ -11,7 +11,6 @@ class HomePageVmFactory extends VmFactory<AppState, HomePageConnector> {
       pokemon: state.pokemon,
     );
   }
-
 }
 
 class HomePageVm extends Vm {
