@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:pokedex/api/models/pokemon_model.dart';
 import 'package:pokedex/feature/details_page/details_page.dart';
+import 'package:pokedex/feature/home_page/widgets/type.dart';
 import 'package:pokedex/utilities/extensions.dart';
 
 class HomePage extends StatelessWidget {
@@ -82,17 +83,12 @@ class HomePage extends StatelessWidget {
                           )));
             },
             child: Container(
-                padding: const EdgeInsets.all(18),
+                padding: const EdgeInsets.all(14),
                 height: 100,
                 width: 100,
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  ),
+                  color: pokemon?[index].types?[0].name.toString().pokemonColor,
+                  borderRadius: const BorderRadius.all(Radius.circular(30)),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black26.withOpacity(0.2),
@@ -109,24 +105,29 @@ class HomePage extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                     const SizedBox(height: 15.0),
                     Row(
                       children: [
                         Column(
-                          children: const [
-                            Text('type 1'),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Text('type 2'),
+                          children: [
+                            ...?pokemon?[index].types?.map((e) => Type(e.name)),
+                            // for (var i = 0; i < int.parse(pokemon?[index].types?.length.toString() ?? ''); i++) ...[
+                            //   Type(pokemon?[index].types?[i].name ?? ''),
+                            //   SizedBox(
+                            //     height: 8,
+                            //   ),
+                            // ],
                           ],
                         ),
-                        SizedBox(
-                            height: 100,
-                            child: Image.network(
-                                'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png')),
+                        Flexible(
+                          child: SizedBox(
+                              height: 90,
+                              child: Image.network(
+                                  'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png')),
+                        ),
                       ],
                     ),
                   ],

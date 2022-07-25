@@ -11,7 +11,9 @@ _$_PokemonModel _$$_PokemonModelFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String?,
       url: json['url'] as String?,
       id: json['id'] as int?,
-      types: json['types'] as List<dynamic>?,
+      types: (json['types'] as List<dynamic>?)
+          ?.map((e) => PokemonTypeModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$_PokemonModelToJson(_$_PokemonModel instance) =>
