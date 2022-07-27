@@ -21,9 +21,16 @@ AppState _$AppStateFromJson(Map<String, dynamic> json) {
 class _$AppStateTearOff {
   const _$AppStateTearOff();
 
-  _AppState call({@JsonKey(name: 'pokemon') List<PokemonModel>? pokemon}) {
+  _AppState call(
+      {@JsonKey(name: 'pokemon') List<PokemonModel>? pokemon,
+      @JsonKey(name: 'about') PokemonAboutModel? about,
+      @JsonKey(name: 'base_stats') PokemonBaseStatsModel? base_stats,
+      @JsonKey(name: 'moves') PokemonMovesModel? moves}) {
     return _AppState(
       pokemon: pokemon,
+      about: about,
+      base_stats: base_stats,
+      moves: moves,
     );
   }
 
@@ -39,6 +46,12 @@ const $AppState = _$AppStateTearOff();
 mixin _$AppState {
   @JsonKey(name: 'pokemon')
   List<PokemonModel>? get pokemon => throw _privateConstructorUsedError;
+  @JsonKey(name: 'about')
+  PokemonAboutModel? get about => throw _privateConstructorUsedError;
+  @JsonKey(name: 'base_stats')
+  PokemonBaseStatsModel? get base_stats => throw _privateConstructorUsedError;
+  @JsonKey(name: 'moves')
+  PokemonMovesModel? get moves => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,7 +63,15 @@ mixin _$AppState {
 abstract class $AppStateCopyWith<$Res> {
   factory $AppStateCopyWith(AppState value, $Res Function(AppState) then) =
       _$AppStateCopyWithImpl<$Res>;
-  $Res call({@JsonKey(name: 'pokemon') List<PokemonModel>? pokemon});
+  $Res call(
+      {@JsonKey(name: 'pokemon') List<PokemonModel>? pokemon,
+      @JsonKey(name: 'about') PokemonAboutModel? about,
+      @JsonKey(name: 'base_stats') PokemonBaseStatsModel? base_stats,
+      @JsonKey(name: 'moves') PokemonMovesModel? moves});
+
+  $PokemonAboutModelCopyWith<$Res>? get about;
+  $PokemonBaseStatsModelCopyWith<$Res>? get base_stats;
+  $PokemonMovesModelCopyWith<$Res>? get moves;
 }
 
 /// @nodoc
@@ -64,13 +85,61 @@ class _$AppStateCopyWithImpl<$Res> implements $AppStateCopyWith<$Res> {
   @override
   $Res call({
     Object? pokemon = freezed,
+    Object? about = freezed,
+    Object? base_stats = freezed,
+    Object? moves = freezed,
   }) {
     return _then(_value.copyWith(
       pokemon: pokemon == freezed
           ? _value.pokemon
           : pokemon // ignore: cast_nullable_to_non_nullable
               as List<PokemonModel>?,
+      about: about == freezed
+          ? _value.about
+          : about // ignore: cast_nullable_to_non_nullable
+              as PokemonAboutModel?,
+      base_stats: base_stats == freezed
+          ? _value.base_stats
+          : base_stats // ignore: cast_nullable_to_non_nullable
+              as PokemonBaseStatsModel?,
+      moves: moves == freezed
+          ? _value.moves
+          : moves // ignore: cast_nullable_to_non_nullable
+              as PokemonMovesModel?,
     ));
+  }
+
+  @override
+  $PokemonAboutModelCopyWith<$Res>? get about {
+    if (_value.about == null) {
+      return null;
+    }
+
+    return $PokemonAboutModelCopyWith<$Res>(_value.about!, (value) {
+      return _then(_value.copyWith(about: value));
+    });
+  }
+
+  @override
+  $PokemonBaseStatsModelCopyWith<$Res>? get base_stats {
+    if (_value.base_stats == null) {
+      return null;
+    }
+
+    return $PokemonBaseStatsModelCopyWith<$Res>(_value.base_stats!, (value) {
+      return _then(_value.copyWith(base_stats: value));
+    });
+  }
+
+  @override
+  $PokemonMovesModelCopyWith<$Res>? get moves {
+    if (_value.moves == null) {
+      return null;
+    }
+
+    return $PokemonMovesModelCopyWith<$Res>(_value.moves!, (value) {
+      return _then(_value.copyWith(moves: value));
+    });
   }
 }
 
@@ -79,7 +148,18 @@ abstract class _$AppStateCopyWith<$Res> implements $AppStateCopyWith<$Res> {
   factory _$AppStateCopyWith(_AppState value, $Res Function(_AppState) then) =
       __$AppStateCopyWithImpl<$Res>;
   @override
-  $Res call({@JsonKey(name: 'pokemon') List<PokemonModel>? pokemon});
+  $Res call(
+      {@JsonKey(name: 'pokemon') List<PokemonModel>? pokemon,
+      @JsonKey(name: 'about') PokemonAboutModel? about,
+      @JsonKey(name: 'base_stats') PokemonBaseStatsModel? base_stats,
+      @JsonKey(name: 'moves') PokemonMovesModel? moves});
+
+  @override
+  $PokemonAboutModelCopyWith<$Res>? get about;
+  @override
+  $PokemonBaseStatsModelCopyWith<$Res>? get base_stats;
+  @override
+  $PokemonMovesModelCopyWith<$Res>? get moves;
 }
 
 /// @nodoc
@@ -94,12 +174,27 @@ class __$AppStateCopyWithImpl<$Res> extends _$AppStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? pokemon = freezed,
+    Object? about = freezed,
+    Object? base_stats = freezed,
+    Object? moves = freezed,
   }) {
     return _then(_AppState(
       pokemon: pokemon == freezed
           ? _value.pokemon
           : pokemon // ignore: cast_nullable_to_non_nullable
               as List<PokemonModel>?,
+      about: about == freezed
+          ? _value.about
+          : about // ignore: cast_nullable_to_non_nullable
+              as PokemonAboutModel?,
+      base_stats: base_stats == freezed
+          ? _value.base_stats
+          : base_stats // ignore: cast_nullable_to_non_nullable
+              as PokemonBaseStatsModel?,
+      moves: moves == freezed
+          ? _value.moves
+          : moves // ignore: cast_nullable_to_non_nullable
+              as PokemonMovesModel?,
     ));
   }
 }
@@ -107,7 +202,11 @@ class __$AppStateCopyWithImpl<$Res> extends _$AppStateCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_AppState implements _AppState {
-  _$_AppState({@JsonKey(name: 'pokemon') this.pokemon});
+  _$_AppState(
+      {@JsonKey(name: 'pokemon') this.pokemon,
+      @JsonKey(name: 'about') this.about,
+      @JsonKey(name: 'base_stats') this.base_stats,
+      @JsonKey(name: 'moves') this.moves});
 
   factory _$_AppState.fromJson(Map<String, dynamic> json) =>
       _$$_AppStateFromJson(json);
@@ -115,10 +214,19 @@ class _$_AppState implements _AppState {
   @override
   @JsonKey(name: 'pokemon')
   final List<PokemonModel>? pokemon;
+  @override
+  @JsonKey(name: 'about')
+  final PokemonAboutModel? about;
+  @override
+  @JsonKey(name: 'base_stats')
+  final PokemonBaseStatsModel? base_stats;
+  @override
+  @JsonKey(name: 'moves')
+  final PokemonMovesModel? moves;
 
   @override
   String toString() {
-    return 'AppState(pokemon: $pokemon)';
+    return 'AppState(pokemon: $pokemon, about: $about, base_stats: $base_stats, moves: $moves)';
   }
 
   @override
@@ -126,12 +234,24 @@ class _$_AppState implements _AppState {
     return identical(this, other) ||
         (other is _AppState &&
             (identical(other.pokemon, pokemon) ||
-                const DeepCollectionEquality().equals(other.pokemon, pokemon)));
+                const DeepCollectionEquality()
+                    .equals(other.pokemon, pokemon)) &&
+            (identical(other.about, about) ||
+                const DeepCollectionEquality().equals(other.about, about)) &&
+            (identical(other.base_stats, base_stats) ||
+                const DeepCollectionEquality()
+                    .equals(other.base_stats, base_stats)) &&
+            (identical(other.moves, moves) ||
+                const DeepCollectionEquality().equals(other.moves, moves)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(pokemon);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(pokemon) ^
+      const DeepCollectionEquality().hash(about) ^
+      const DeepCollectionEquality().hash(base_stats) ^
+      const DeepCollectionEquality().hash(moves);
 
   @JsonKey(ignore: true)
   @override
@@ -145,14 +265,26 @@ class _$_AppState implements _AppState {
 }
 
 abstract class _AppState implements AppState {
-  factory _AppState({@JsonKey(name: 'pokemon') List<PokemonModel>? pokemon}) =
-      _$_AppState;
+  factory _AppState(
+      {@JsonKey(name: 'pokemon') List<PokemonModel>? pokemon,
+      @JsonKey(name: 'about') PokemonAboutModel? about,
+      @JsonKey(name: 'base_stats') PokemonBaseStatsModel? base_stats,
+      @JsonKey(name: 'moves') PokemonMovesModel? moves}) = _$_AppState;
 
   factory _AppState.fromJson(Map<String, dynamic> json) = _$_AppState.fromJson;
 
   @override
   @JsonKey(name: 'pokemon')
   List<PokemonModel>? get pokemon => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'about')
+  PokemonAboutModel? get about => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'base_stats')
+  PokemonBaseStatsModel? get base_stats => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'moves')
+  PokemonMovesModel? get moves => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$AppStateCopyWith<_AppState> get copyWith =>

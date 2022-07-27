@@ -1,5 +1,4 @@
 // import 'package:async_redux/async_redux.dart';
-// import 'package:flutter/material.dart';
 //
 // import '../../api/models/pokemon_model.dart';
 // import '../../state/app_state.dart';
@@ -22,3 +21,5 @@
 //
 //   final List<PokemonModel>? pokemon;
 // }
+
+// TODO

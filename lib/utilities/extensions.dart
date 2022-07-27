@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/utilities/constants.dart';
-
+import 'package:intl/intl.dart';
 
 extension StringExt on String {
   String get capitalize =>
       '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
 
-  String get pokemonID => split('/')[6];
+  String get pokemonImage {
+    // return 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$this.png';
+    return 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/$this.png';
+  }
 
   Color get pokemonColor {
     var color = Colors.white;
@@ -54,4 +57,55 @@ extension StringExt on String {
 
     return color;
   }
+
+  String get formatID {
+    var formatter = new NumberFormat('000');
+    return '#${formatter.format(int.parse(this))}';
+  }
+
+  String get replaceBracket {
+    return replaceAll('[', '').replaceAll(']', '');
+  }
+
+  String get replaceDash {
+    return replaceAll('-', ' ');
+  }
+
+  String get toHeight {
+    var convert = double.parse(this) / 10;
+    return convert.toString() + ' m';
+  }
+
+  String get toWeight {
+    var convert = double.parse(this) / 10;
+    return convert.toString() + ' kg';
+  }
+
+  String get toBaseExp {
+    return '$this xp';
+  }
+
+  String get shortcut {
+    return replaceAll('Special', 'Sp').replaceAll('attack', 'Atk').replaceAll('defense', 'Def');
+  }
+
+  Color get baseStatsColor {
+    var color;
+    var value = double.parse(this) / 200;
+
+    if (value < 0.25) {
+      color = Color(0xfffa6e70);
+    }
+    else if (value < 0.5){
+      color = Color(0xffbfab32);
+    }
+    else {
+      color = Color(0xff51d0b1);
+    }
+
+    return color;
+
+  }
+
+
 }

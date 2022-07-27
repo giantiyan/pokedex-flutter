@@ -65,14 +65,12 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 190,
-          childAspectRatio: 1,
+          childAspectRatio: 9/8,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
         ),
         itemCount: pokemon?.length,
         itemBuilder: (context, index) {
-          var id = pokemon?[index].id;
-
           return InkWell(
             onTap: () {
               Navigator.push(
@@ -83,7 +81,7 @@ class HomePage extends StatelessWidget {
                           )));
             },
             child: Container(
-                padding: const EdgeInsets.all(14),
+                padding: const EdgeInsets.all(12),
                 height: 100,
                 width: 100,
                 decoration: BoxDecoration(
@@ -108,12 +106,12 @@ class HomePage extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 15.0),
+                    const SizedBox(height: 8.0),
                     Row(
                       children: [
                         Column(
                           children: [
-                            ...?pokemon?[index].types?.map((e) => Type(e.name)),
+                            ...?pokemon?[index].types?.map((type) => Type(type.name)),
                             // for (var i = 0; i < int.parse(pokemon?[index].types?.length.toString() ?? ''); i++) ...[
                             //   Type(pokemon?[index].types?[i].name ?? ''),
                             //   SizedBox(
@@ -124,9 +122,9 @@ class HomePage extends StatelessWidget {
                         ),
                         Flexible(
                           child: SizedBox(
-                              height: 90,
                               child: Image.network(
-                                  'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png')),
+                                  pokemon?[index].id.toString().pokemonImage ??
+                                      '')),
                         ),
                       ],
                     ),

@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'package:dartx/dartx.dart';
 import 'package:http/http.dart' as http;
+import 'package:pokedex/api/models/pokemon_about_model.dart';
+import 'package:pokedex/api/models/pokemon_base_stats_model.dart';
 import 'package:pokedex/api/models/pokemon_model.dart';
+import 'package:pokedex/api/models/pokemon_moves_model.dart';
 import 'package:pokedex/api/models/pokemon_type_model.dart';
 import 'package:pokedex/utilities/constants.dart';
 
@@ -16,15 +19,16 @@ class PokemonHandler {
     }
 
     if (response.statusCode == 200) {
-      final List data = jsonDecode(response.body)['results'];
+      final List results = jsonDecode(response.body)['results'];
       var typesList = <List<PokemonTypeModel>?>[]; // List<List<PokemonTypeModel>?> typesList = [];
 
-      for (var i = 1; i <= data.length; i++) {
+      for (var i = 1; i <= results.length; i++) {
         final types = await getPokemonType(i);
         typesList.add(types);
+
       }
 
-      final pokemonData = data
+      final pokemonResults = results
           .mapIndexed((index, pokemon) => PokemonModel(
                 name: pokemon['name'],
                 url: pokemon['url'],
@@ -32,8 +36,7 @@ class PokemonHandler {
                 types: typesList[index],
               ))
           .toList();
-
-      return pokemonData;
+      return pokemonResults;
     } else {
       return null;
     }
@@ -49,18 +52,86 @@ class PokemonHandler {
     }
 
     if (response.statusCode == 200) {
-      final List data = jsonDecode(response.body)['types'];
-      final typeData = data
+      final List results = jsonDecode(response.body)['types'];
+      final typeResults = results
           .mapIndexed((index, type) => PokemonTypeModel(
         name: type['type']['name'],
       ))
           .toList();
 
-      return typeData;
+      return typeResults;
     } else {
       print('Can\'t get Pokemon types. Error ${response.statusCode}');
       return [];
     }
 
   }
+
+  static Future<PokemonAboutModel?> getPokemonAbout(int id) async {
+    var response = http.Response('', 100);
+
+    try {
+      response = await http.get(Uri.tryParse('$pokemonURL/$id') ?? Uri());
+    } catch (e) {
+      print(e);
+    }
+
+    if (response.statusCode == 200) {
+      final results = jsonDecode(response.body);
+      final List abilityResults = results['abilities'];
+
+      return PokemonAboutModel(
+        height: results['height'],
+        weight: results['weight'],
+        base_experience: results['base_experience'],
+        abilities: abilityResults.map((ability) => ability['ability']['name'].toString()).toList(),
+      );
+    } else {
+      return null;
+    }
+  }
+
+  static Future<PokemonBaseStatsModel?> getPokemonBaseStats(int id) async {
+    var response = http.Response('', 100);
+
+    try {
+      response = await http.get(Uri.tryParse('$pokemonURL/$id') ?? Uri());
+    } catch (e) {
+      print(e);
+    }
+
+    if (response.statusCode == 200) {
+      final results = jsonDecode(response.body);
+      final List baseStatsResults = results['stats'];
+
+      return PokemonBaseStatsModel(
+        base_stat: baseStatsResults.map((base_stat) => base_stat['base_stat'].toString()).toList(),
+        name: baseStatsResults.map((name) => name['stat']['name'].toString()).toList(),
+      );
+    } else {
+      return null;
+    }
+  }
+
+  static Future<PokemonMovesModel?> getPokemonMoves(int id) async {
+    var response = http.Response('', 100);
+
+    try {
+      response = await http.get(Uri.tryParse('$pokemonURL/$id') ?? Uri());
+    } catch (e) {
+      print(e);
+    }
+
+    if (response.statusCode == 200) {
+      final results = jsonDecode(response.body);
+      final List movesResults = results['moves'];
+
+      return PokemonMovesModel(
+        name: movesResults.map((name) => name['move']['name'].toString()).toList(),
+      );
+    } else {
+      return null;
+    }
+  }
+
 }

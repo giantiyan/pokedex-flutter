@@ -15,7 +15,7 @@ class Type extends StatelessWidget {
             horizontal: 12,
             vertical: 5,
           ),
-          margin: EdgeInsets.only(bottom: 8),
+          margin: EdgeInsets.only(bottom: 8, right: 8),
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.25),
             borderRadius: BorderRadius.all(Radius.circular(20)),
