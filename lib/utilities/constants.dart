@@ -1,8 +1,14 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 const pokemonURL = 'https://pokeapi.co/api/v2/pokemon';
 
 const pokemonImage = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/';
+
+const spinKit = SpinKitHourGlass(
+    color: Colors.red,
+    size: 50.0,
+);
 
 const Color kFire = Color(0xfffa6e70);
 const Color kGrass = Color(0xff51d0b1);

@@ -10,19 +10,20 @@ class AboutTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
+   return (about != null) ?
+    Padding(
+      padding: const EdgeInsets.all(18.0),
       child: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AboutInformation('Height', about?.height.toString().toHeight),
             AboutInformation('Weight', about?.weight.toString().toWeight),
-            AboutInformation('Abilities', about?.abilities.toString().replaceBracket.replaceDash.capitalize),
+            AboutInformation('Abilities', about?.abilities?.toString().replaceBracket.replaceDash.toTitleCase),
             AboutInformation('Base Experience', about?.base_experience.toString().toBaseExp),
           ],
         ),
       ),
-    );
+    ) : Center(child: CircularProgressIndicator());
   }
 }

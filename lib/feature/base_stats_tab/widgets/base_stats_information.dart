@@ -16,34 +16,36 @@ class BaseStatsInformation extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              label!,
+              label ?? '',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
+                color: Colors.grey[800],
               ),
             ),
           ),
           Expanded(
             flex: 2,
             child: Text(
-              value!,
+              value ?? '',
               style: TextStyle(
                 fontSize: 16,
               ),
             ),
           ),
           Expanded(
-              flex: 5,
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                child: LinearProgressIndicator(
-                  value: double?.parse(value!) / 200,
-                  valueColor: new AlwaysStoppedAnimation<Color>(
-                      value!.toString().baseStatsColor),
-                  backgroundColor: Colors.grey[200],
-                  minHeight: 6,
-                ),
-              ))
+            flex: 5,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              child: LinearProgressIndicator(
+                value: double?.parse(value ?? '0') / 200,
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                    (value ?? '0').toString().baseStatsColor),
+                backgroundColor: Colors.grey[200],
+                minHeight: 6,
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -5,13 +5,11 @@ import 'package:pokedex/state/app_state.dart';
 
 class MovesTabVmFactory extends VmFactory<AppState, MovesTabConnector> {
   @override
-  Vm fromStore() => MovesTabVm(
-    moves: state.moves
-  );
+  Vm fromStore() => MovesTabVm(moves: state.moves);
 }
 
-class MovesTabVm extends Vm{
-  MovesTabVm({this.moves}): super(equals: [moves]);
+class MovesTabVm extends Vm {
+  MovesTabVm({this.moves}) : super(equals: [moves]);
 
   final PokemonMovesModel? moves;
 }

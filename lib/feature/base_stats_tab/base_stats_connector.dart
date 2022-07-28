@@ -6,15 +6,15 @@ import 'package:pokedex/state/actions/details_page_actions.dart';
 import 'package:pokedex/state/app_state.dart';
 
 class BaseStatsTabConnector extends StatelessWidget {
-  const BaseStatsTabConnector(this.pokemonID);
+  const BaseStatsTabConnector(this.pokemonId);
 
-  final int? pokemonID;
+  final int? pokemonId;
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, BaseStatsTabVm> (
+    return StoreConnector<AppState, BaseStatsTabVm>(
       vm: () => BaseStatsTabVmFactory(),
-      onInit: (vm) => vm.dispatch(GetPokemonBaseStatsAction(pokemonID)),
+      onInit: (vm) => vm.dispatch(GetPokemonBaseStatsAction(pokemonId)),
       builder: (context, vm) => BaseStatsTab(vm.baseStats),
     );
   }

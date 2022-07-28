@@ -1,25 +1,23 @@
-// import 'package:async_redux/async_redux.dart';
-//
-// import '../../api/models/pokemon_model.dart';
-// import '../../state/app_state.dart';
-// import 'details_page_connector.dart';
-//
-// class DetailsPageVmFactory extends VmFactory<AppState, DetailsPageConnector> {
-//   @override
-//   Vm fromStore() {
-//     return DetailsPageVm(
-//       pokemon: state.pokemon,
-//     );
-//   }
-//
-// }
-//
-// class DetailsPageVm extends Vm {
-//   DetailsPageVm({
-//     this.pokemon,
-//   }) : super(equals: [pokemon]);
-//
-//   final List<PokemonModel>? pokemon;
-// }
+import 'package:async_redux/async_redux.dart';
+import 'package:pokedex/api/models/pokemon_model.dart';
+import 'package:pokedex/api/models/pokemon_type_model.dart';
+import 'package:pokedex/state/app_state.dart';
+import 'details_page_connector.dart';
 
-// TODO
+class DetailsPageVmFactory extends VmFactory<AppState, DetailsPageConnector> {
+  @override
+  Vm fromStore() => DetailsPageVm(
+        specificPokemon: state.specificPokemon,
+        types: state.types,
+      );
+}
+
+class DetailsPageVm extends Vm {
+  DetailsPageVm({
+    this.specificPokemon,
+    this.types,
+  }) : super(equals: [specificPokemon, types]);
+
+  final PokemonModel? specificPokemon;
+  final List<PokemonTypeModel>? types;
+}

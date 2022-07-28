@@ -20,20 +20,12 @@ class PokemonHandler {
 
     if (response.statusCode == 200) {
       final List results = jsonDecode(response.body)['results'];
-      var typesList = <List<PokemonTypeModel>?>[]; // List<List<PokemonTypeModel>?> typesList = [];
-
-      for (var i = 1; i <= results.length; i++) {
-        final types = await getPokemonType(i);
-        typesList.add(types);
-
-      }
 
       final pokemonResults = results
           .mapIndexed((index, pokemon) => PokemonModel(
                 name: pokemon['name'],
                 url: pokemon['url'],
                 id: index + 1,
-                types: typesList[index],
               ))
           .toList();
       return pokemonResults;

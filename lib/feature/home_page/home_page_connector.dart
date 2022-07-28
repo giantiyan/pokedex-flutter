@@ -15,9 +15,7 @@ class HomePageConnector extends StatelessWidget {
         vm: () => HomePageVmFactory(),
         onInit: (store) async => store.dispatch(GetPokemonAction()),
         builder: (context, vm) {
-          return HomePage(
-            pokemon: vm.pokemon,
-          );
+          return HomePage(pokemon: vm.pokemon);
         });
   }
 }

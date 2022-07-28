@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:pokedex/api/models/pokemon_model.dart';
+import 'package:pokedex/api/models/pokemon_type_model.dart';
 import 'package:pokedex/feature/about_tab/about_tab_connector.dart';
 import 'package:pokedex/feature/base_stats_tab/base_stats_connector.dart';
 import 'package:pokedex/feature/home_page/widgets/type.dart';
@@ -9,19 +10,16 @@ import 'package:pokedex/utilities/extensions.dart';
 import 'package:pokedex/utilities/string_constants.dart';
 
 class DetailsPage extends StatelessWidget {
-  const DetailsPage({
-    required this.pokemon,
-  });
+  const DetailsPage({this.specificPokemon, this.types});
 
-  final PokemonModel? pokemon;
+  final PokemonModel? specificPokemon;
+  final List<PokemonTypeModel>? types;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: pokemon?.types?[0].name.toString().pokemonColor,
-      appBar: AppBar(
-        backgroundColor: Colors.red,
-      ),
+    return (types != null) ? Scaffold(
+      backgroundColor: types?.first.name.toString().pokemonColor,
+      appBar: AppBar(backgroundColor: Colors.red),
       body: Center(
         child: Column(
           children: [
@@ -31,7 +29,7 @@ class DetailsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      (pokemon?.name).toString().capitalize,
+                      (specificPokemon?.name).toString().capitalize,
                       style: const TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
@@ -41,7 +39,7 @@ class DetailsPage extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        (pokemon?.id).toString().formatID,
+                        (specificPokemon?.id).toString().formatID,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -51,7 +49,7 @@ class DetailsPage extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        ...?pokemon?.types?.map((type) => Type(type.name)),
+                        ...?types?.map((type) => Type(type.name))
                       ],
                     ),
                     Center(
@@ -59,7 +57,7 @@ class DetailsPage extends StatelessWidget {
                         height: 210,
                         margin: EdgeInsets.only(bottom: 20),
                         child: Image.network(
-                            pokemon?.id.toString().pokemonImage ?? ''),
+                            specificPokemon?.id.toString().pokemonImage ?? ''),
                       ),
                     ),
                   ],
@@ -68,10 +66,7 @@ class DetailsPage extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25),
-                  ),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black26.withOpacity(0.2),
@@ -81,57 +76,49 @@ class DetailsPage extends StatelessWidget {
                     )
                   ],
                 ),
-                child: Column(
-                  children: [
-                    DefaultTabController(
-                      length: 4,
-                      initialIndex: 0,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TabBar(indicatorColor: Colors.orangeAccent,
-                            labelColor: Colors.black,
-                            labelPadding:
-                                EdgeInsets.symmetric(horizontal: 10.0),
-                            tabs: [
-                              Tab(text: about),
-                              Tab(text: baseStats),
-                              Tab(text: evolution),
-                              Tab(text: moves),
-                            ],
-                          ),
-                          Container(
-                            height: 265,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TabBarView(
-                                children: [
-                                  AboutTabConnector(pokemon?.id),
-                                  BaseStatsTabConnector(pokemon?.id),
-                                  SingleChildScrollView(
-                                    child: Container(
-                                      child: Column(
-                                        children: [
-                                          Text('inf3'),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  MovesTabConnector(pokemon?.id),
-                                ],
-                              ),
-                            ),
-                          )
+                child: DefaultTabController(
+                  length: 4,
+                  initialIndex: 0,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TabBar(
+                        indicatorColor: Colors.red,
+                        labelColor: Colors.black,
+                        labelPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                        tabs: [
+                          Tab(text: about),
+                          Tab(text: baseStats),
+                          Tab(text: evolution),
+                          Tab(text: moves),
                         ],
                       ),
-                    ),
-                  ],
+                      Expanded(
+                        child: TabBarView(
+                          children: [
+                            AboutTabConnector(specificPokemon?.id),
+                            BaseStatsTabConnector(specificPokemon?.id),
+                            SingleChildScrollView(
+                              child: Container(
+                                child: Column(
+                                  children: [
+                                    Text('info 3'),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            MovesTabConnector(specificPokemon?.id),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
           ],
         ),
       ),
-    );
+    ) : Scaffold(body: Center(child: CircularProgressIndicator())) ;
   }
 }
